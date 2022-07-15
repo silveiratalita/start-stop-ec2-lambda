@@ -1,0 +1,35 @@
+{
+  "name": "start-stop-ec2-lambda",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "repository": "https://github.com/silveiratalita/start-stop-ec2-lambda.git",
+  "author": "silveiratalita",
+  "keywords": [],
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint src/** --ext .js --ignore-pattern src/key/*.pem",
+    "test": "jasmine",
+    "cover": "nyc --reporter=lcov jasmine",
+    "start": "node ./src/Event/handlers/receiveEvent/index.js",
+    "dev": "node -r dotenv/config src/Event/handlers/receiveEvent/index.js dotenv_config_path=./env/local.env",
+    "startoffline": "npx nodemon --exec npm run offline",
+    "offline": "npx sls offline start --host 0.0.0.0"
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.739.0",
+    "dotenv": "^8.0.0",
+    "eslint": "^6.1.0",
+    "eslint-config-google": "^0.13.0",
+    "eslint-config-prettier": "^6.0.0",
+    "express": "^4.17.1",
+    "jasmine": "^3.4.0",
+    "jasmine-spec-reporter": "^4.2.1",
+    "nodemon": "^2.0.4",
+    "nyc": "^14.1.1",
+    "prettier": "^1.18.2",
+    "serverless": "^3.19.0",
+    "serverless-http": "^2.5.0",
+    "serverless-offline": "^8.8.0"
+  }
+}

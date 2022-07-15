@@ -1,0 +1,50 @@
+service: StartStop
+
+custom:
+  environment: ${}
+  projectName: ${}
+  applicationName:
+  system:
+  privateSubnetIds: ${}
+  defaultSecurityGroupId: ${}
+
+provider:
+  name: aws
+  region:
+  runtime: nodejs16.x
+  stackName: Serverless
+  logRetentionInDays: 14
+  deploymentPrefix: serverless
+  versionFunctions: false
+  tracing:
+    lambda: true
+  iamRoleStatements:
+    - Effect: 'Allow'
+      Action:
+        - 'ec2:DescribeInstances'
+        - 'ec2:StartInstances'
+        - 'ec2:StopInstances'
+      Resource:
+        - '*'
+  memorySize: 128
+  timeout: 30
+  environment:
+
+
+functions:
+  StartStopInstances:
+    name: startStopInstances
+    handler: src/Event/handlers/receiveEvent/index.handler
+    events:
+      - schedule:
+          name: start-schedule-ec2
+          rate: cron(0 11 ? * MON,TUE,WED,THU,FRI *)
+          input:
+            action: Start
+            msg: Estamos ligando as maquinas do ambiente de dev
+      - schedule:
+          name: stop-schedule-ec2
+          rate: cron(00 21 ? * MON,TUE,WED,THU,FRI *)
+          input:
+            action: Stop
+            msg: Estamos desligando as maquinas do ambiente de dev
